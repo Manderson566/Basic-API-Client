@@ -150,7 +150,8 @@ namespace BasicAPIClient
                         break;
                     case 2:
                         Console.Clear();
-                        i--;
+                        if (i > 1)
+                        { i--; }
                         break;
                     case 3:
                         Console.WriteLine("");
@@ -217,7 +218,8 @@ namespace BasicAPIClient
                         break;
                     case 2:
                         Console.Clear();
-                        i--;
+                        if (i > 1)
+                        { i--; }
                         break;
                     case 3:
                         Console.WriteLine("");
@@ -285,7 +287,8 @@ namespace BasicAPIClient
                         break;
                     case 2:
                         Console.Clear();
-                        i--;
+                        if (i > 1)
+                        { i--; }
                         break;
                     case 3:
                         Console.WriteLine("");
@@ -294,7 +297,7 @@ namespace BasicAPIClient
                         break;
                     case 4:
                         Console.Clear();
-                        i = 0;
+                        i=0
                         Index();
                         break;
                     default:
