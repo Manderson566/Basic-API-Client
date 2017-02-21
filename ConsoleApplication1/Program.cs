@@ -28,6 +28,23 @@ namespace BasicAPIClient
             client.BaseAddress = new Uri("https://anapioficeandfire.com/api/");
         }
 
+        ////Houses
+        static Houses GetHouse(string id)
+        {
+
+            var house = client.GetAsync($"houses/{id}/").Result;
+            return house.Content.ReadAsAsync<Houses>().Result;
+
+        }
+        static List<Houses> GetHouses(int page)
+        {
+            var housePage = client.GetAsync($"houses?page={page}").Result;
+            List<Houses> HousePages = housePage.Content.ReadAsAsync<List<Houses>>().Result;
+            return HousePages;
+
+        }
+        ////Houses
+
         ////Characters
         static Characters GetCharacter(string id)
         {
@@ -70,12 +87,13 @@ namespace BasicAPIClient
 
         private static void Index()
         {
+            Console.WriteLine("Welcome To Game Of Thrones Search");
             Console.WriteLine("");
             Console.WriteLine("1) Characters");
             Console.WriteLine("");
             Console.WriteLine("2) Books");
             Console.WriteLine("");
-            Console.WriteLine("3) Select Character Number");
+            Console.WriteLine("3) Houses");
             Console.WriteLine("");
             int choice = int.Parse(Read("> "));
             Console.WriteLine("");
@@ -90,9 +108,7 @@ namespace BasicAPIClient
                     GetBookPages();
                     break;
                 case 3:
-                    Console.WriteLine("");
-                    GetCharacter();
-                    Console.WriteLine("");
+                    GetHousePages();
                     break;
                 default:
                     break;
@@ -102,7 +118,7 @@ namespace BasicAPIClient
         //BookStart
         private static void GetBookPages()
         {
-            for (int i = 1; i < 215;)
+            for (int i = 1; i < 2;)
             {
                 var bookPages = GetBooks(i);
                 foreach (var book in bookPages)
@@ -150,7 +166,7 @@ namespace BasicAPIClient
 
         private static void GetaBook()
         {
-            Console.WriteLine("Enter Character Number");
+            Console.WriteLine("Enter Book Number");
             string bookId = (Read("> "));
             var bookPage = GetBook(bookId);
             Console.WriteLine($"Name: {bookPage.name}");
@@ -224,6 +240,69 @@ namespace BasicAPIClient
             Console.WriteLine($"Url: {characterPage.Url}");
         }
         //Character End.
+
+        //Houses Start.
+        private static void GetHousePages()
+        {
+            for (int i = 1; i < 215;)
+            {
+                var housePages = GetHouses(i);
+                foreach (var house in housePages)
+                {
+                    string path = house.url.ToString();
+                    string pos = path.Split('/').Last();
+                    Console.WriteLine(pos + " " + house.name);
+
+                }
+                Console.WriteLine("");
+                Console.WriteLine("1) Next Page");
+                Console.WriteLine("");
+                Console.WriteLine("2) Previous Page");
+                Console.WriteLine("");
+                Console.WriteLine("3) Select House Number");
+                Console.WriteLine("");
+                Console.WriteLine("4) Back");
+                Console.WriteLine("");
+                int choice = int.Parse(Read("> "));
+                Console.WriteLine("");
+                switch (choice)
+                {
+                    case 1:
+                        Console.Clear();
+                        i++;
+                        break;
+                    case 2:
+                        Console.Clear();
+                        i--;
+                        break;
+                    case 3:
+                        Console.WriteLine("");
+                        GetaHouse();
+                        Console.WriteLine("");
+                        break;
+                    case 4:
+                        Console.Clear();
+                        i = 0;
+                        Index();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private static void GetaHouse()
+        {
+            Console.WriteLine("Enter House Number");
+            string houseId = (Read("> "));
+            var housePage = GetHouse(houseId);
+            Console.WriteLine($"Name: {housePage.name}");
+            Console.WriteLine($"Region: {housePage.region}");
+            Console.WriteLine($"Coat Of Arms: {housePage.coatOfArms}");
+            Console.WriteLine($"Current Lord: {housePage.currentLord}");
+            Console.WriteLine($"Url: {housePage.url}");
+        }
+        //Houses End.
     }
 }
 

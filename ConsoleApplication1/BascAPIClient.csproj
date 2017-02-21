@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Books.cs" />
     <Compile Include="Characters.cs" />
+    <Compile Include="Houses.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
