@@ -4,14 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApplication1
+namespace BasicAPIClient
 {
     class Books
     {
         public string url { get; set; }
         public string name { get; set; }
-        public string authors { get; set; }
-        
+        public string released { get; set; }
+        public string numberOfPages { get; set; }
+        public string publisher { get; set; }
+
 
 
     }

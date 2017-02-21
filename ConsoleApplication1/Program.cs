@@ -27,6 +27,8 @@ namespace BasicAPIClient
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.BaseAddress = new Uri("https://anapioficeandfire.com/api/");
         }
+
+        ////Characters
         static Characters GetCharacter(string id)
         {
     
@@ -41,7 +43,32 @@ namespace BasicAPIClient
             return CharPages;
 
         }
+        ////Characters
+
+        ////Books
+        static List<Books> GetBooks(int page)
+        {
+            var bookPage = client.GetAsync($"books?page={page}").Result;
+            List<Books> BookPages = bookPage.Content.ReadAsAsync<List<Books>>().Result;
+            return BookPages;
+
+        }
+        static Books GetBook(string id)
+        {
+
+            var book = client.GetAsync($"books/{id}/").Result;
+            return book.Content.ReadAsAsync<Books>().Result;
+
+        }
+        ////Books
+
         static void Main(string[] args)
+        {
+            Index();
+
+        }
+
+        private static void Index()
         {
             Console.WriteLine("");
             Console.WriteLine("1) Characters");
@@ -55,14 +82,14 @@ namespace BasicAPIClient
             switch (choice)
             {
                 case 1:
+                    SetUpClient();
                     GetCharacterPages();
                     break;
                 case 2:
-                    Console.Clear();
-                    i--;
+                    SetUpClient();
+                    GetBookPages();
                     break;
                 case 3:
-                    Console.Clear();
                     Console.WriteLine("");
                     GetCharacter();
                     Console.WriteLine("");
@@ -70,29 +97,28 @@ namespace BasicAPIClient
                 default:
                     break;
             }
-            
+        }
 
-
-            }
-
+        //BookStart
         private static void GetBookPages()
         {
-            SetUpClient();
             for (int i = 1; i < 215;)
             {
-                var characterPages = GetCharacters(i);
-                foreach (var character in characterPages)
+                var bookPages = GetBooks(i);
+                foreach (var book in bookPages)
                 {
-                    string path = character.Url.ToString();
+                    string path = book.url.ToString();
                     string pos = path.Split('/').Last();
-                    Console.WriteLine(pos + " " + character.name);
+                    Console.WriteLine(pos + " " + book.name);
                 }
                 Console.WriteLine("");
                 Console.WriteLine("1) Next Page");
                 Console.WriteLine("");
                 Console.WriteLine("2) Previous Page");
                 Console.WriteLine("");
-                Console.WriteLine("3) Select Character Number");
+                Console.WriteLine("3) Select Book Number");
+                Console.WriteLine("");
+                Console.WriteLine("4) Back");
                 Console.WriteLine("");
                 int choice = int.Parse(Read("> "));
                 Console.WriteLine("");
@@ -107,10 +133,14 @@ namespace BasicAPIClient
                         i--;
                         break;
                     case 3:
+                        Console.WriteLine("");
+                        GetaBook();
+                        Console.WriteLine("");
+                        break;
+                    case 4:
                         Console.Clear();
-                        Console.WriteLine("");
-                        GetCharacter();
-                        Console.WriteLine("");
+                        i = 0;
+                        Index();
                         break;
                     default:
                         break;
@@ -118,10 +148,22 @@ namespace BasicAPIClient
             }
         }
 
+        private static void GetaBook()
+        {
+            Console.WriteLine("Enter Character Number");
+            string bookId = (Read("> "));
+            var bookPage = GetBook(bookId);
+            Console.WriteLine($"Name: {bookPage.name}");
+            Console.WriteLine($"Publisher: {bookPage.publisher}");
+            Console.WriteLine($"Number Of Pages: {bookPage.numberOfPages}");
+            Console.WriteLine($"Released: {bookPage.released}");
+            Console.WriteLine($"Url: {bookPage.url}");
+        }
+        //Book end
 
+        //Character Start
         private static void GetCharacterPages()
         {
-            SetUpClient();
             for (int i = 1; i < 215;)
             {
                 var characterPages = GetCharacters(i);
@@ -131,7 +173,6 @@ namespace BasicAPIClient
                     string pos = path.Split('/').Last();
                     Console.WriteLine(pos + " " + character.name);
 
-                    //Credit to Michael On this. 
                 }
                 Console.WriteLine("");
                 Console.WriteLine("1) Next Page");
@@ -139,6 +180,8 @@ namespace BasicAPIClient
                 Console.WriteLine("2) Previous Page");
                 Console.WriteLine("");
                 Console.WriteLine("3) Select Character Number");
+                Console.WriteLine("");
+                Console.WriteLine("4) Back");
                 Console.WriteLine("");
                 int choice = int.Parse(Read("> "));
                 Console.WriteLine("");
@@ -153,10 +196,14 @@ namespace BasicAPIClient
                         i--;
                         break;
                     case 3:
-                        Console.Clear();
                         Console.WriteLine("");
                         GetCharacter();
                         Console.WriteLine("");
+                        break;
+                    case 4:
+                        Console.Clear();
+                        i = 0;
+                        Index();
                         break;
                     default:
                         break;
@@ -166,6 +213,7 @@ namespace BasicAPIClient
 
         private static void GetCharacter()
         {
+            Console.WriteLine("Enter Character Number");
             string charId = (Read("> "));
             var characterPage = GetCharacter(charId);
             Console.WriteLine($"Name: {characterPage.name}");
@@ -175,6 +223,7 @@ namespace BasicAPIClient
             Console.WriteLine($"Died: {characterPage.died}");
             Console.WriteLine($"Url: {characterPage.Url}");
         }
+        //Character End.
     }
 }
 
