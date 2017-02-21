@@ -81,12 +81,14 @@ namespace BasicAPIClient
 
         static void Main(string[] args)
         {
+            SetUpClient();
             Index();
 
         }
 
         private static void Index()
         {
+           
             Console.WriteLine("Welcome To Game Of Thrones Search");
             Console.WriteLine("");
             Console.WriteLine("1) Characters");
@@ -100,11 +102,9 @@ namespace BasicAPIClient
             switch (choice)
             {
                 case 1:
-                    SetUpClient();
                     GetCharacterPages();
                     break;
                 case 2:
-                    SetUpClient();
                     GetBookPages();
                     break;
                 case 3:
@@ -118,8 +118,12 @@ namespace BasicAPIClient
         //BookStart
         private static void GetBookPages()
         {
-            for (int i = 1; i < 2;)
+            for (int i = 1; i < 4;)
             {
+                if (i >= 3)
+                {
+                    i = 1;
+                }
                 var bookPages = GetBooks(i);
                 foreach (var book in bookPages)
                 {
@@ -180,8 +184,12 @@ namespace BasicAPIClient
         //Character Start
         private static void GetCharacterPages()
         {
-            for (int i = 1; i < 215;)
+            for (int i = 1; i < 61;)
             {
+                if (i >= 60)
+                {
+                    i = 1;
+                }
                 var characterPages = GetCharacters(i);
                 foreach (var character in characterPages)
                 {
@@ -244,8 +252,12 @@ namespace BasicAPIClient
         //Houses Start.
         private static void GetHousePages()
         {
-            for (int i = 1; i < 215;)
+            for (int i = 1; i < 40;)
             {
+                if (i >= 39)
+                {
+                    i = 1;
+                }
                 var housePages = GetHouses(i);
                 foreach (var house in housePages)
                 {
